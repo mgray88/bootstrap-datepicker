@@ -169,6 +169,7 @@
 			}
 		},
 		_buildEvents: function(){
+			this._secondaryEvents = [];
 			if (this.isInput) { // single input
 				this._events = [
 					[this.element, {
@@ -200,9 +201,15 @@
 						click: $.proxy(this.show, this)
 					}]
 				];
+				this._secondaryEvents.unshift(
+					[$(document), {
+						keyup: $.proxy(this.update, this),
+						keydown: $.proxy(this.keydown, this)
+					}]
+				);
 			}
 
-			this._secondaryEvents = [
+			this._secondaryEvents.unshift(
 				[this.picker, {
 					click: $.proxy(this.click, this)
 				}],
@@ -222,7 +229,7 @@
 						}
 					}, this)
 				}]
-			];
+			);
 		},
 		_attachEvents: function(){
 			this._detachEvents();
